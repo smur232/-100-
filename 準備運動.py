@@ -89,9 +89,11 @@ print(cipher('Hello World! Today is November 12, 2015.'))
 
 # 09
 
+
 def shuffle_word(word):
     word = list(word)
     return word[0] + ''.join(sample(word[1:-1], len(word)-2)) + word[-1]
+
 
 def typoglycemia(string_to_randomize):
     input_array = re.split('(\W+)', string_to_randomize)
