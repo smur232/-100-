@@ -41,21 +41,14 @@ print(result)
 # 05
 
 def ngram(string_to_ngram, n):
-    input_len = len(string_to_ngram)
     shift_amount = n-1
-    input_array = [x for x in string_to_ngram]
+    input_array = string_to_ngram.split()
+    input_len = len(input_array)
     result = []
-
-    new_gram = ''.join(input_array[:shift_amount])
-
-    for i in range(shift_amount, input_len):  # O(m) m = input length
-        new_gram += input_array[i]
-        result.append(new_gram)
-        new_gram = new_gram[1:]  # O(n)
-
+    for i in range(input_len-shift_amount):
+        result.append(' '.join(input_array[i:i+n]))
     return result
-
-print(ngram("I am an NLPer", 4))
+print(ngram("I am an NLPer", 3))
 
 # 06
 
