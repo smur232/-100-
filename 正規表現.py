@@ -105,8 +105,27 @@ def take_away_markup(basic_info_dict):
                         .replace("}}", ""), value)) for key, value in without_links.items()])
 
     without_HTML = dict([(key, re.sub(r"<.*>", "", value)) for key, value in without_template.items()])
-
-    print("\n".join([key+": "+without_HTML[key] for key in without_HTML.keys()]))
+    return without_HTML
 
 print('\nWithout markup:')
-take_away_markup(basic_info_dict)
+basic_info_no_markup = take_away_markup(basic_info_dict)
+print("\n".join([key+": "+basic_info_no_markup[key] for key in basic_info_no_markup.keys()]))
+
+# 29
+
+import urllib.request
+import urllib.parse
+
+def get_flag_image(basic_info_no_markup):
+    # url = "http://ja.wikipedia.org/w/api.php?format=json&action=query&titles=Image:{}&prop=imageinfo&iiprop=url".format(basic_info_no_markup[u"国旗画像"])
+    # print(urllib.parse.urlencode(url))
+
+    # .formatの場合、ファイルの名前にスペースがある時に、URLがあっていなかったので、以下のようにハードコードしてしまいました。
+
+    url = 'https://ja.wikipedia.org/w/api.php?format=json&action=query&titles=Image:Flag%20of%20the%20United%20Kingdom.svg&prop=imageinfo&iiprop=url'
+    response = urllib.request.urlopen(url).read().decode('utf-8')
+    json_response = json.loads(response)
+    print(json_response['query']['pages']['-1']["imageinfo"][0]["url"])
+
+print('\nImage URL: ')
+get_flag_image(basic_info_no_markup)
