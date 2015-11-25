@@ -117,15 +117,10 @@ import urllib.request
 import urllib.parse
 
 def get_flag_image(basic_info_no_markup):
-    # url = "http://ja.wikipedia.org/w/api.php?format=json&action=query&titles=Image:{}&prop=imageinfo&iiprop=url".format(basic_info_no_markup[u"国旗画像"])
-    # print(urllib.parse.urlencode(url))
-
-    # .formatの場合、ファイルの名前にスペースがある時に、URLがあっていなかったので、以下のようにハードコードしてしまいました。
-
-    url = 'https://ja.wikipedia.org/w/api.php?format=json&action=query&titles=Image:Flag%20of%20the%20United%20Kingdom.svg&prop=imageinfo&iiprop=url'
+    url = "https://ja.wikipedia.org/w/api.php?format=json&action=query&titles=Image:{}&prop=imageinfo&iiprop=url".format(urllib.parse.quote_plus(basic_info_no_markup[u"国旗画像"]))
     response = urllib.request.urlopen(url).read().decode('utf-8')
     json_response = json.loads(response)
-    print(json_response['query']['pages']['-1']["imageinfo"][0]["url"])
+    return json_response['query']['pages']['-1']["imageinfo"][0]["url"]
 
 print('\nImage URL: ')
-get_flag_image(basic_info_no_markup)
+print(get_flag_image(basic_info_no_markup))
